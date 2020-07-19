@@ -1,10 +1,10 @@
-### Mice VS Elephants
-# It is common knowledge that elephants are deathly afraid of mice. What is not so common knowledge is the reason why. Clearly it can't be that the elephant is afraid of stepping on the mouse as the mouse cannot, in any way, pose a risk to the substantially larger mammal in such an encounter. Some argue that the reason is that the elephant is afraid that the mouse will go inside its trunk. This is ridiculous because in one simple puff the elephant could eject the mouse for several hundred yards. In fact, this would seem the perfect way to deal with mice: when they approach, simply snort them up gently and then blow them out as far as you can. Multiple mice could be handled simultaneously. Heck, the elephants could set up competitions for distance or quantity.
-# The real reason is that mice have a strong taste for elephant flesh. Although there have been no visual recordings of mice attacking elephants as a tasty snack it does in fact happen. What's more surprising is that the mice have a very strong appetite for elephants. It only requires two mice to devour a single adult male elephant (clearly competitions involving quantity is not a good idea for the elephants). It's not a pretty sight either. Faced against the voracious feeding frenzy of a pair of mice the elephant has no hope of survival. A single mouse cannot take on an elephant and survive so they must coordinate their attack. The coordination is quite simple.
+# Mice VS Elephants
+It is common knowledge that elephants are deathly afraid of mice. What is not so common knowledge is the reason why. Clearly it can't be that the elephant is afraid of stepping on the mouse as the mouse cannot, in any way, pose a risk to the substantially larger mammal in such an encounter. Some argue that the reason is that the elephant is afraid that the mouse will go inside its trunk. This is ridiculous because in one simple puff the elephant could eject the mouse for several hundred yards. In fact, this would seem the perfect way to deal with mice: when they approach, simply snort them up gently and then blow them out as far as you can. Multiple mice could be handled simultaneously. Heck, the elephants could set up competitions for distance or quantity.
+The real reason is that mice have a strong taste for elephant flesh. Although there have been no visual recordings of mice attacking elephants as a tasty snack it does in fact happen. What's more surprising is that the mice have a very strong appetite for elephants. It only requires two mice to devour a single adult male elephant (clearly competitions involving quantity is not a good idea for the elephants). It's not a pretty sight either. Faced against the voracious feeding frenzy of a pair of mice the elephant has no hope of survival. A single mouse cannot take on an elephant and survive so they must coordinate their attack. The coordination is quite simple.
 
-# Using a multithreaded application written in Java you are to simulate mice hunting elephants in the wild.
+Using a multithreaded application written in Java you are to simulate mice hunting elephants in the wild.
 
-### Specifications
+# Specifications
 Yea!! You get to work in teams of no more than three
 members. You may also work alone or in pairs if you desire, or is convenient. One
 person can write the elephant's behavior and the other the
@@ -34,7 +34,7 @@ The hunt ends when elephants have been eaten. FYI... the mice die of starvation.
 
 All threads must exit cleanly when the hunt ends.
 
-### Distances:
+# Distances:
 
 For movement and throwing all distances are discrete
 squares, regardless of direction. Like kings and queens in
@@ -46,7 +46,7 @@ LaTeX: \sqrt{\left(x_1-x_2\right)^2+\left(y_1-y_2\right)^2}(x1−x2)2+(y1−y2)2
 
 The game occurs on a global 2-dimensional array of squares. java.math.Random is a good random number generator. Be careful using them though as they may not be reentrant.
 
-### Rules of Movement
+# Rules of Movement
 Mice basically move randomly unless they aren't alone and within striking distance of the elephant in which case they attack.
 
 If the mouse is not within striking distance of the elephant then it moves to a random adjacent square.
