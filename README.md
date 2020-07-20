@@ -15,7 +15,7 @@ C:/> java hunt 300 400 6 4 7
 * The striking distance is set to 6 units. 
 * There are 4 elephants and 7 mice at the start.
 
-Animals can move (and be ``snot shot'' launched) in eight directions. The directions are the same as those that a king or queen can move in chess.
+Animals can move (and be ''snot shot'' launched) in eight directions. The directions are the same as those that a king or queen can move in chess.
 Adjacent squares in the diagonal direction are considered to be separated by a distance of 1 unit for purposes of movement.
 * Mice are sneaky and fast. They make two moves for every move the elephant makes.
 * An animal can only move to a square adjacent to the square it currently occupies.
