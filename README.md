@@ -1,25 +1,20 @@
 # Mice VS Elephants
-It is common knowledge that elephants are deathly afraid of mice. What is not so common knowledge is the reason why. Clearly it can't be that the elephant is afraid of stepping on the mouse as the mouse cannot, in any way, pose a risk to the substantially larger mammal in such an encounter. Some argue that the reason is that the elephant is afraid that the mouse will go inside its trunk. This is ridiculous because in one simple puff the elephant could eject the mouse for several hundred yards. In fact, this would seem the perfect way to deal with mice: when they approach, simply snort them up gently and then blow them out as far as you can. Multiple mice could be handled simultaneously. Heck, the elephants could set up competitions for distance or quantity.
+*It is common knowledge that elephants are deathly afraid of mice. What is not so common knowledge is the reason why. Clearly it can't be that the elephant is afraid of stepping on the mouse as the mouse cannot, in any way, pose a risk to the substantially larger mammal in such an encounter. Some argue that the reason is that the elephant is afraid that the mouse will go inside its trunk. This is ridiculous because in one simple puff the elephant could eject the mouse for several hundred yards. In fact, this would seem the perfect way to deal with mice: when they approach, simply snort them up gently and then blow them out as far as you can. Multiple mice could be handled simultaneously. Heck, the elephants could set up competitions for distance or quantity.
 The real reason is that mice have a strong taste for elephant flesh. Although there have been no visual recordings of mice attacking elephants as a tasty snack it does in fact happen. What's more surprising is that the mice have a very strong appetite for elephants. It only requires two mice to devour a single adult male elephant (clearly competitions involving quantity is not a good idea for the elephants). It's not a pretty sight either. Faced against the voracious feeding frenzy of a pair of mice the elephant has no hope of survival. A single mouse cannot take on an elephant and survive so they must coordinate their attack. The coordination is quite simple.
 
 Using a multithreaded application written in Java you are to simulate mice hunting elephants in the wild.
-
+---
 # Specifications
-Yea!! You get to work in teams of no more than three
-members. You may also work alone or in pairs if you desire, or is convenient. One
-person can write the elephant's behavior and the other the
-mice's for example. Both members should fully understand the
-threading implementation though as there is a high probability
-that a related question will appear on the final.
-You are to use three different thread functionss. One to represent elephant, one for
-mice and the original main thread.
+You are to use three different thread functionss. One to represent elephant, one for mice and the original main thread.
 The hunt occurs on a discrete, square grid.
-The dimensions of the grid are passed as the first two
-command line arguments. The third is the striking distance. The fourth is the number of elephants spawned at the start and fifth is the number of mice spawned at the start. The
-command.
-        C:/> java hunt 300 400 6 4 7
-results in a grid that is 300 squares wide and 400 squares
-tall. The striking distance is set to 6 units. There are 4 elephants and 7 mice at the start.
+The dimensions of the grid are passed as the first two command line arguments. 
+,,,
+C:/> java hunt 300 400 6 4 7
+,,,
+*results in a grid that is 300 squares wide and 400 squares tall. 
+*The striking distance is set to 6 units. T
+*here are 4 elephants and 7 mice at the start.
+
 nimals can move (and be ``snot shot'' launched) in eight directions. The directions are the same as those that a king or queen can move in chess.
 Adjacent squares in the diagonal direction are considered to be separated by a distance of 1 unit for purposes of movement.
 Mice are sneaky and fast. They make two moves for every move the elephant makes.
@@ -33,7 +28,7 @@ or
 The hunt ends when elephants have been eaten. FYI... the mice die of starvation.
 
 All threads must exit cleanly when the hunt ends.
-
+---
 # Distances:
 
 For movement and throwing all distances are discrete
