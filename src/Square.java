@@ -13,7 +13,10 @@ public class Square {
     private List<Elephant> elephants;
     private boolean hasElephant;
     private boolean hasMouse;
+    private int numMic = 0;
+    private int numElephant = 0;
     
+
     //constructor
     public Square(int x, int y) {
         this.x = x;

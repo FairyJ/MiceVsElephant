@@ -122,6 +122,7 @@ public class GameBoard {
         board.board[el.getX()][el.getY()] = new Square(el.getX(), el.getY());
         board.board[el.getX()][el.getY()].addElephant(el);
         System.out.println(el);
+
         while (el.getX() != el.getY()) {
             el.move();
             System.out.println(el);
@@ -134,6 +135,9 @@ public class GameBoard {
         // System.out.println(el);
 
         // System.out.println(el);
+
+        
+
         boolean success = board.play();
         if(success)
             System.out.println("everythread successfully finished");

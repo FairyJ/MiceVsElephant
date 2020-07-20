@@ -37,9 +37,9 @@ public class Mouse extends Thread {
     public boolean move() {
         if(this.board.moveMouse(1 , this))
             return true;
-        else if (this.board.moveMouse(3 , this))           
-            return true;
         else if(this.board.moveMouse(5 , this))
+            return true;
+        else if (this.board.moveMouse(3 , this))           
             return true;
         else if(this.board.moveMouse(7, this))
             return true;

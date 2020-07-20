@@ -1,7 +1,7 @@
 package src;
 import java.util.Random;
 
-public class Elephant extends Animal{
+public class Elephant extends Thread{
 
     private final int steps = 1;
     private String name;
