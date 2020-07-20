@@ -118,18 +118,22 @@ public class GameBoard {
 
     public static void main(String[] args) {
         GameBoard board = new GameBoard(100, 100, 6, 10, 5);
-        Elephant el = new Elephant(5 , 6, "el1" ,board );
+        Elephant el = new Elephant(20 , 85, "el1" ,board );
         board.board[el.getX()][el.getY()] = new Square(el.getX(), el.getY());
         board.board[el.getX()][el.getY()].addElephant(el);
         System.out.println(el);
-        board.moveElephant(3, el);
-        System.out.println(el);
-        board.moveElephant(1, el);
-        System.out.println(el);
-        board.moveElephant(8, el);
-        System.out.println(el);
+        while (el.getX() != el.getY()) {
+            el.move();
+            System.out.println(el);
+        }
+        // board.moveElephant(3, el);
+        // System.out.println(el);
+        // board.moveElephant(1, el);
+        // System.out.println(el);
+        // board.moveElephant(8, el);
+        // System.out.println(el);
 
-        System.out.println(el);
+        // System.out.println(el);
         boolean success = board.play();
         if(success)
             System.out.println("everythread successfully finished");

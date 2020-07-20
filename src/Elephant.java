@@ -1,4 +1,5 @@
 package src;
+import java.util.Random;
 
 public class Elephant extends Animal{
 
@@ -7,6 +8,7 @@ public class Elephant extends Animal{
     private GameBoard board;    
     private int x;
     private int y;
+    private Random rand;
     
 
     public Elephant (int x, int y, String name , GameBoard board) {
@@ -14,6 +16,7 @@ public class Elephant extends Animal{
         this.y = y;
         this.name = name;
         this.board = board;
+        this.rand = new Random();
     }
     public int getX(){
         //generate random number for x
@@ -37,16 +40,11 @@ public class Elephant extends Animal{
     }
 
     public boolean move() {
-        if(this.board.moveElephant(1 , this))
-            return true;
-        else if (this.board.moveElephant(3 , this))
-            return true;
-        else if(this.board.moveElephant(5 , this))
-            return true;
-        else if(this.board.moveElephant(7, this))
-            return true;
-        else
-            return false;
+        int randMove = this.rand.nextInt(8) + 1;
+        while (!this.board.moveElephant(randMove , this)) {
+            randMove = this.rand.nextInt(8) + 1;
+        }
+        return true;
     
         //if in my strike zone is one mouse run 
         
