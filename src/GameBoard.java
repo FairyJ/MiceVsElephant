@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 
 public class GameBoard {
-    //board dimantions
+    // board dimensions
     private int squaresWide;
     private int squaresTall;
 
@@ -54,7 +54,7 @@ public class GameBoard {
     }
 
     public boolean moveElephant(int dir, Elephant el){
-        int[] position = this.move(dir , el.getX() , el.getX() , el.getSteps() );
+        int[] position = this.move(dir , el.getX() , el.getY() , el.getSteps() );
         if(position[0] < 0 || position[0] > squaresWide-1 || position[1] < 0 || position[1] > squaresTall-1){
             return false;
         }
@@ -77,7 +77,7 @@ public class GameBoard {
         switch (dir) {
             //Up
             case 1:
-                result [1] = y+1; 
+                result [1] = y-1; 
                 break;
             //Right
             case 3:
@@ -106,19 +106,19 @@ public class GameBoard {
                 result[0] = x-1;
                 result[1] = y+1;  
                 break; 
-            //LEFT RIGHT
+            //LEFT UP
             case 8:
                 result[0] = x-1;
                 result[1] = y-1; 
                 break;  
             
         }
-    return result;
+        return result;
     }
 
     public static void main(String[] args) {
         GameBoard board = new GameBoard(100, 100, 6, 10, 5);
-        Elephant el = new Elephant(5 , 6, "Farzin" ,board );
+        Elephant el = new Elephant(5 , 6, "el1" ,board );
         board.board[el.getX()][el.getY()] = new Square(el.getX(), el.getY());
         board.board[el.getX()][el.getY()].addElephant(el);
         System.out.println(el);
@@ -126,7 +126,7 @@ public class GameBoard {
         System.out.println(el);
         board.moveElephant(1, el);
         System.out.println(el);
-        board.moveElephant(5, el);
+        board.moveElephant(8, el);
         System.out.println(el);
 
         System.out.println(el);

@@ -56,7 +56,7 @@ public class Elephant extends Animal{
     }
 
     public String toString() {
-        String result = "I am a nice Elephant and my name is " + this.name + "I live in (" + this.x + ", " + this.y + ")";
+        String result = "I am a nice Elephant and my name is " + this.name + " I live in (" + this.x + ", " + this.y + ")";
         return result;
     }
 
