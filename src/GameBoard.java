@@ -20,12 +20,12 @@ public class GameBoard {
     private Square[][] board;
     
 
-    public GameBoard(int squaresWide, int squaresTall, int strinkingDistance, int numMice, int numElpahnet) {
+    public GameBoard(int squaresWide, int squaresTall, int strikingDistance, int numMice, int numElephant) {
         this.squaresWide = squaresWide;
         this.squaresTall = squaresTall;
-        this.strinkingDistance = strinkingDistance;
+        this.strinkingDistance = strikingDistance;
         this.numMice = numMice;
-        this.numElpahnet = numElpahnet;
+        this.numElpahnet = numElephant;
         this.board = new Square[this.squaresWide][this.squaresTall];
     }
 

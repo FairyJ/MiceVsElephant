@@ -48,9 +48,9 @@ public class Elephant extends Animal{
     
         //if in my strike zone is one mouse run 
         
-        //if in my strike zone is two mouse freez
+        //if in my strike zone is two mouse freeze
 
-        //if around me is empty move randomle
+        //if around me is empty move randomly
     }
 
     public String toString() {
