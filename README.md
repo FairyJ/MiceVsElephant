@@ -8,49 +8,57 @@ Using a multithreaded application written in Java you are to simulate mice hunti
 You are to use three different thread functionss. One to represent elephant, one for mice and the original main thread.
 The hunt occurs on a discrete, square grid.
 The dimensions of the grid are passed as the first two command line arguments. 
-
+```
 C:/> java hunt 300 400 6 4 7
+```
+* results in a grid that is 300 squares wide and 400 squares tall. 
+* The striking distance is set to 6 units. 
+* There are 4 elephants and 7 mice at the start.
 
-results in a grid that is 300 squares wide and 400 squares tall. 
-The striking distance is set to 6 units. T
-here are 4 elephants and 7 mice at the start.
-
-nimals can move (and be ``snot shot'' launched) in eight directions. The directions are the same as those that a king or queen can move in chess.
+Animals can move (and be ``snot shot'' launched) in eight directions. The directions are the same as those that a king or queen can move in chess.
 Adjacent squares in the diagonal direction are considered to be separated by a distance of 1 unit for purposes of movement.
-Mice are sneaky and fast. They make two moves for every move the elephant makes.
-An animal can only move to a square adjacent to the square it currently occupies.
-Elephants start in random squares.
-The mice start in random squares not already occupied by an elephant.
-Every time an animal moves itself it prints its movement to stdout in the format:
+* Mice are sneaky and fast. They make two moves for every move the elephant makes.
+* An animal can only move to a square adjacent to the square it currently occupies.
+* Elephants start in random squares.
+* The mice start in random squares not already occupied by an elephant.
+* Every time an animal moves itself it prints its 
+```
+movement to stdout in the format:
      Mouse 2 to 233 345
 or
      Elephant 1 to 223 345
-The hunt ends when elephants have been eaten. FYI... the mice die of starvation.
+Adding a "Turn 23:" prefix 
+or 
+a " on Turn 23" suffix to the print statement is acceptable (even desirable, but not required).
+
+```
+- The hunt ends when elephants have been eaten. FYI... the mice die of starvation.
 
 All threads must exit cleanly when the hunt ends.
----
+
 # Distances:
 
-For movement and throwing all distances are discrete
-squares, regardless of direction. Like kings and queens in
-chess.
+- For movement and throwing all distances are discrete
+squares, regardless of direction. Like kings and queens in chess.
 
-For measurements, such as ``farther'' and ``within'',
+- For measurements, such as ``farther'' and ``within'',
 the distance is computed according to the standard formula:
-LaTeX: \sqrt{\left(x_1-x_2\right)^2+\left(y_1-y_2\right)^2}(x1−x2)2+(y1−y2)2
+```
+LaTeX: sqrt((x1 - x2)^2+(y1 - y2)^2)
+```
 
 The game occurs on a global 2-dimensional array of squares. java.math.Random is a good random number generator. Be careful using them though as they may not be reentrant.
 
 # Rules of Movement
 Mice basically move randomly unless they aren't alone and within striking distance of the elephant in which case they attack.
 
-If the mouse is not within striking distance of the elephant then it moves to a random adjacent square.
-If the mouse is within the striking distance of the elephant then:
-If the mouse is within the striking distance of the other mouse then the mouse is not alone and makes a move that brings it as close to the elephant as possible.
-Otherwise, the mouse is alone and it freezes and stands still for fear of being launched with snot all over itself.
-The elephant is basically afraid of mice and seeks to maximize its closest distance to a mouse. But he's also irrational so his movement is always random.
-If the elephant finds a single mouse on itself (occupies the same square as itself) then the elephant simply snorts it up and ejects it in a random direction a distance equal to twice the striking distance (not to exceed the edges of the board). After such an act the elephant makes his move normally.
-If a mouse is within striking distance then it makes a random move that would increase the closest distance to any mouse. If no squares take it further away then the elephant stands still, trembling. In other words... any move that bring him closer to any mouse than he is currently would not be valid.
-Otherwise, it makes a random move.
-Deliverables
+- If the mouse is not within striking distance of the elephant then it moves to a random adjacent square.
+- If the mouse is within the striking distance of the elephant then:
+  - If the mouse is within the striking distance of the other mouse then the mouse is not alone and makes a move that brings it as close to the elephant as possible.
+  - Otherwise, the mouse is alone and it freezes and stands still for fear of being launched with snot all over itself.
+- The elephant is basically afraid of mice and seeks to maximize its closest distance to a mouse. But he's also irrational so his movement is always random.
+  - If the elephant finds a single mouse on itself (occupies the same square as itself) then the elephant simply snorts it up and ejects it in a random direction a distance equal to twice the striking distance (not to exceed the edges of the board). After such an act the elephant makes his move normally.
+  - If a mouse is within striking distance then it makes a random move that would increase the closest distance to any mouse. If no squares take it further away then the elephant stands still, trembling. In other words... any move that bring him closer to any mouse than he is currently would not be valid.
+  - Otherwise, it makes a random move.
+# Deliverables
 Upload your source code files to canvas. If you are submitting as a team you should create a team group. Make sure all source code has a comment with all the author's name.
