@@ -7,6 +7,7 @@ public class Mouse extends Thread {
     private GameBoard board;    
     private int x;
     private int y;
+    
 
 
     public Mouse (String name , GameBoard board) {

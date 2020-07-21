@@ -14,7 +14,7 @@ public class Square {
     private boolean hasElephant;
     private boolean hasMouse;
     private int numMic = 0;
-    private int numElephant = 0;
+    private final int numElephant = 1;//can only hold one elephant 
     
 
     //constructor
@@ -26,6 +26,7 @@ public class Square {
         this.hasElephant = false;
         this.hasMouse = false;
     }
+    
     
     public boolean addElephant(Elephant el){
         this.elephants.add(el);
@@ -42,6 +43,7 @@ public class Square {
     public boolean addMouse(Mouse m){
         this.mice.add(m);
         this.hasMouse = true;
+        //numMic++; ?????
         return true;
     }
 

@@ -4,7 +4,7 @@ import java.util.Random;
 public class Elephant extends Thread{
 
     private final int steps = 1;
-    private String name;
+    private String name ;
     private GameBoard board;    
     private int x;
     private int y;
@@ -20,12 +20,10 @@ public class Elephant extends Thread{
     }
     public int getX(){
         //generate random number for x
-
         return this.x;
     }
     public int getY(){
-        //generate random number for y
-        
+        //generate random number for y 
         return this.y;
     }
     public void setX(int x){
@@ -35,6 +33,7 @@ public class Elephant extends Thread{
         this.y = y;
     }
 
+   
     public int getSteps(){
         return this.steps;
     }
