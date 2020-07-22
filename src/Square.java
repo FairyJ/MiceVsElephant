@@ -3,7 +3,6 @@ package src;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Square {
     //my square have x and y and also can hold animal inside
     //square position
@@ -26,11 +25,19 @@ public class Square {
         this.hasElephant = false;
         this.hasMouse = false;
     }
-    
+    public void setNumMic(){
+        this.numMic = numMic;
+    }
+
+    public int getNumMic(){
+        return this.numMic;
+    }
     
     public boolean addElephant(Elephant el){
         this.elephants.add(el);
         this.hasElephant = true;
+        System.out.println("added elephant to this square with position (" + this.x + ", " + this.y + ")");
+
         return true;
     }
 
@@ -43,6 +50,8 @@ public class Square {
     public boolean addMouse(Mouse m){
         this.mice.add(m);
         this.hasMouse = true;
+        System.out.println("added mouse to this square with position (" + this.x + ", " + this.y + ")");
+
         //numMic++; ?????
         return true;
     }
@@ -54,17 +63,20 @@ public class Square {
     }
 
     public boolean isEmpty(){
-
+        System.out.println("suare is empty");
         return !this.hasElephant  && !this.hasMouse;
     }
 
     public boolean mouseIsHere(){
-        
+        System.out.println("mouse is here in (" + this.x + ", " + this.y + ")");
+
         return this.hasMouse;
     }
     public boolean elephantIsHere(){
+        System.out.println("elephant is here(" + this.x + ", " + this.y + ")");
 
         return this.hasElephant;
     }
+    
 
 }

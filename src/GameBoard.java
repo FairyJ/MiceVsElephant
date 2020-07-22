@@ -11,6 +11,18 @@ import java.util.LinkedList;
 
 
 public class GameBoard {
+    // [left up, up, right up, right, down right, down, left down, left]
+    //(0,0)          (1,0)up,1      (2,0)         
+    //(0,1)left,7    (1,1),0        (2,1)right,3
+    //(0,2)          (1,2)down,5    (2,2) 
+    public final static int LEFT = 7;
+    public final static int RIGHT = 3;
+    public final static int UP = 1;
+    public final static int DOWN = 5;
+    public final static int LU = 0;
+    public final static int LD = 6;
+    public final static int RU = 2;
+    public final static int RD = 4;
     // board dimensions
     private int squaresWide;
     private int squaresTall;
@@ -18,7 +30,7 @@ public class GameBoard {
     private int numElpahnet;
     private int strinkingDistance;
     private Square[][] board;
-    private Random randomNumber;//to get random number 
+    private Random randomNumber; 
 
     
 
@@ -34,31 +46,53 @@ public class GameBoard {
     }
 
     public boolean play(){
+        //generate number of elephants and mice
         int counter = 0;
         while(counter != this.numElpahnet){
-            
             int randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
-            int randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;
-            //create empty square with random x and y in our board
-            this.board [randomNumberOfX][randomNumberOfY]= new Square(randomNumberOfX, randomNumberOfY);
-
-            if (this.board[randomNumberOfX][randomNumberOfY] != null) {
-                Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elelphant", this);
-                this.board[randomNumberOfX][randomNumberOfY].addElephant(el);
-                System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
-
+            int randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;        
+            /*if  square in this position exist then check is empty or not is yes put elephant here 
+             if not create another square with random x nad y.
+             */
+            if (board[randomNumberOfX][randomNumberOfY] != null) {
+                //if it is empty no one is there
+                if(this.board[randomNumberOfX][randomNumberOfY].isEmpty()){
+                    Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elelphant", this);
+                    System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
+                    board[randomNumberOfX][randomNumberOfY].addElephant(el);
+                }
             }
-            //check if our square is empty put elephant insid square otherwise create new random one 
-            else if(this.board [randomNumberOfX][randomNumberOfY].isEmpty()){
-                Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elelphant", this);
-                this.board[randomNumberOfX][randomNumberOfX].addElephant(el);
-                System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
-            }
+            //create new square and put the elephant in side.
             else{ 
+                board[randomNumberOfX][randomNumberOfY] = new Square(randomNumberOfX, randomNumberOfY);
+                System.out.println("there was no square make new with X : " + randomNumberOfX  + " and new Y : " + randomNumberOfY + "\n"); 
                 Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elelphant", this);
-                this.board[randomNumberOfX][randomNumberOfX].addElephant(el);
-                System.out.println("last one was full made new X : " + randomNumberOfX  + " and new Y : " + randomNumberOfY + "\n");
-                
+                board[randomNumberOfX][randomNumberOfY].addElephant(el);
+            }
+            counter++;
+        }
+
+        while(counter != this.numMice){
+            int randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
+            int randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;        
+            /*if  square in this position exist then check is empty or not is yes put mouse here 
+             if not create another square with random x nad y.
+             */
+            if (board[randomNumberOfX][randomNumberOfY] != null) {
+                //if it is empty or we have mouse in side this square, we use isEmpty and mouseIsHere method
+                if(!board[randomNumberOfX][randomNumberOfY].elephantIsHere()){
+                    Mouse m = new Mouse(randomNumberOfX , randomNumberOfY , "mouse" , this);
+                    board[randomNumberOfX][randomNumberOfY].addMouse(m);
+                    System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
+                }
+
+            }
+            //create new square and put the mouse inside.
+            else{ 
+                board[randomNumberOfX][randomNumberOfY] = new Square(randomNumberOfX, randomNumberOfY);
+                System.out.println("there was no square make new with X : " + randomNumberOfX  + " and new Y : " + randomNumberOfY + "\n"); 
+                Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, "mouse", this);
+                board[randomNumberOfX][randomNumberOfY].addMouse(m);
             }
             counter++;
         }
@@ -150,7 +184,8 @@ public class GameBoard {
     }
 
     public static void main(String[] args) {
-        GameBoard board = new GameBoard(10, 10, 6, 10, 5);
+        GameBoard board = new GameBoard(2, 2, 2, 4, 2);
+        
         board.play();
 
         // Elephant el = new Elephant(20 , 85, "el" ,board );

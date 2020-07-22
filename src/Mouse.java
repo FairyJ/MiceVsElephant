@@ -10,7 +10,9 @@ public class Mouse extends Thread {
     
 
 
-    public Mouse (String name , GameBoard board) {
+    public Mouse (int x, int y, String name, GameBoard board) {
+        this.x = x;
+        this.y = y;
         this.name = name;
         this.board = board;
     }
