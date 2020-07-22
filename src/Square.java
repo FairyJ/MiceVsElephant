@@ -13,7 +13,8 @@ public class Square {
     private boolean hasElephant;
     private boolean hasMouse;
     private int numMic = 0;
-    private final int numElephant = 1;//can only hold one elephant 
+    private int numElephant = 0;
+    private final int limitNumElphant = 1;//can only hold one elephant 
     
 
     //constructor
@@ -25,10 +26,7 @@ public class Square {
         this.hasElephant = false;
         this.hasMouse = false;
     }
-    public void setNumMic(){
-        this.numMic = numMic;
-    }
-
+    
     public int getNumMic(){
         return this.numMic;
     }
@@ -37,7 +35,7 @@ public class Square {
         this.elephants.add(el);
         this.hasElephant = true;
         System.out.println("added elephant to this square with position (" + this.x + ", " + this.y + ")");
-
+        numElephant++;
         return true;
     }
 
@@ -45,14 +43,14 @@ public class Square {
         this.elephants.remove(el);
         if(this.elephants.isEmpty())
             this.hasElephant = false;
+        numElephant--;
     }
 
     public boolean addMouse(Mouse m){
         this.mice.add(m);
         this.hasMouse = true;
         System.out.println("added mouse to this square with position (" + this.x + ", " + this.y + ")");
-
-        //numMic++; ?????
+        numMic++; 
         return true;
     }
 
@@ -60,6 +58,7 @@ public class Square {
         this.mice.remove(m);
         if(this.mice.isEmpty())
             this.hasMouse = false;
+            numMic--;
     }
 
     public boolean isEmpty(){
@@ -68,13 +67,11 @@ public class Square {
     }
 
     public boolean mouseIsHere(){
-        System.out.println("mouse is here in (" + this.x + ", " + this.y + ")");
-
+        //System.out.println("mouse is here in (" + this.x + ", " + this.y + ")");
         return this.hasMouse;
     }
     public boolean elephantIsHere(){
-        System.out.println("elephant is here(" + this.x + ", " + this.y + ")");
-
+       // System.out.println("elephant is here(" + this.x + ", " + this.y + ")");
         return this.hasElephant;
     }
     

@@ -31,9 +31,10 @@ public class GameBoard {
     private int strinkingDistance;
     private Square[][] board;
     private Random randomNumber; 
-
+    private List<Mouse> mice;
+    private List<Elephant> elephants;
     
-
+    
     public GameBoard(int squaresWide, int squaresTall, int strikingDistance, int numMice, int numElephant) {
         this.squaresWide = squaresWide;
         this.squaresTall = squaresTall;
@@ -42,63 +43,96 @@ public class GameBoard {
         this.numElpahnet = numElephant;
         this.board = new Square[this.squaresWide][this.squaresTall];
         this.randomNumber = new Random(); 
+        this.mice = new LinkedList<>();
+        this.elephants = new LinkedList<>();
+
 
     }
-
+    /*to start my game i need to make all my elephants and mice first 
+    then start my game
+    */
     public boolean play(){
         //generate number of elephants and mice
-        int counter = 0;
-        while(counter != this.numElpahnet){
-            int randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
-            int randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;        
-            /*if  square in this position exist then check is empty or not is yes put elephant here 
-             if not create another square with random x nad y.
-             */
-            if (board[randomNumberOfX][randomNumberOfY] != null) {
+        int elephcounter = 0;
+        int mouseCounter = 0;
+        int randomNumberOfX; //= this.randomNumber.nextInt(squaresWide) ;
+        int randomNumberOfY; //= this.randomNumber.nextInt(squaresTall) ;
+        //boolean elephantcreate = false;
+
+        while(elephcounter != this.numElpahnet){ 
+            randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
+            randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;
+            while(true){        
+           
                 //if it is empty no one is there
-                if(this.board[randomNumberOfX][randomNumberOfY].isEmpty()){
-                    Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elelphant", this);
-                    System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
+                if(this.board[randomNumberOfX][randomNumberOfY] != null){
+                    if(this.board[randomNumberOfX][randomNumberOfY].isEmpty()){
+                        Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elphant", this);
+                        System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
+                        board[randomNumberOfX][randomNumberOfY].addElephant(el);
+                        //elephantcreate = true;
+                        break;
+                        }else{//there is elephant create another random numbers.
+                            System.out.println("alreday this position exist");
+                            randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
+                            randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;
+                            
+                        }             
+                }
+                        //create new square and put the elephant in side.
+                else{ 
+                    board[randomNumberOfX][randomNumberOfY] = new Square(randomNumberOfX, randomNumberOfY);
+                    System.out.println("there was no square make new with X : " + randomNumberOfX  + " and new Y : " + randomNumberOfY ); 
+                    Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elphant", this);
                     board[randomNumberOfX][randomNumberOfY].addElephant(el);
+                    //elephantcreate = true;
+
+                    break;
                 }
             }
-            //create new square and put the elephant in side.
-            else{ 
-                board[randomNumberOfX][randomNumberOfY] = new Square(randomNumberOfX, randomNumberOfY);
-                System.out.println("there was no square make new with X : " + randomNumberOfX  + " and new Y : " + randomNumberOfY + "\n"); 
-                Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elelphant", this);
-                board[randomNumberOfX][randomNumberOfY].addElephant(el);
-            }
-            counter++;
+        elephcounter++;
         }
 
-        while(counter != this.numMice){
-            int randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
-            int randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;        
-            /*if  square in this position exist then check is empty or not is yes put mouse here 
-             if not create another square with random x nad y.
-             */
-            if (board[randomNumberOfX][randomNumberOfY] != null) {
-                //if it is empty or we have mouse in side this square, we use isEmpty and mouseIsHere method
-                if(!board[randomNumberOfX][randomNumberOfY].elephantIsHere()){
-                    Mouse m = new Mouse(randomNumberOfX , randomNumberOfY , "mouse" , this);
+
+        while(mouseCounter != this.numMice){ 
+            randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
+            randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;
+            while(true){        
+                //if it is empty no one is there
+                if(this.board[randomNumberOfX][randomNumberOfY] != null){
+                    if(this.board[randomNumberOfX][randomNumberOfY].isEmpty()){
+                        Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, "mouse", this);
+                        System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
+                        board[randomNumberOfX][randomNumberOfY].addMouse(m);
+                        //mousecreate = true;
+                        break;
+                    }
+                    else if(this.board[randomNumberOfX][randomNumberOfY].mouseIsHere()){
+                        Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, "mouse", this);
+                        this.board[randomNumberOfX][randomNumberOfY].addMouse(m);
+                        System.out.println("added another mouse in this position");
+                        break;
+
+                    }else{
+                            System.out.println("alreday this position exist, create new one ( " + randomNumberOfX +", " +randomNumberOfY + ")" );
+                            randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
+                            randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;
+                            
+                        }             
+                }
+                        //create new square and put the mouse in side.
+                else{ 
+                    board[randomNumberOfX][randomNumberOfY] = new Square(randomNumberOfX, randomNumberOfY);
+                    System.out.println("there was no square make new with X : " + randomNumberOfX  + " and new Y : " + randomNumberOfY ); 
+                    Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, "mouse", this);
                     board[randomNumberOfX][randomNumberOfY].addMouse(m);
-                    System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
+                    //elephantcreate = true;
+                    break;
                 }
-
             }
-            //create new square and put the mouse inside.
-            else{ 
-                board[randomNumberOfX][randomNumberOfY] = new Square(randomNumberOfX, randomNumberOfY);
-                System.out.println("there was no square make new with X : " + randomNumberOfX  + " and new Y : " + randomNumberOfY + "\n"); 
-                Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, "mouse", this);
-                board[randomNumberOfX][randomNumberOfY].addMouse(m);
-            }
-            counter++;
+        mouseCounter++;
         }
-
         return true;
-
     }
 
     public boolean moveMouse(int dir, Mouse m){
@@ -139,7 +173,7 @@ public class GameBoard {
 
     
     private int[] move(int dir, int x , int y , int steps){
-       
+              
         int[] result = {x, y};
         switch (dir) {
             //Up
@@ -184,7 +218,7 @@ public class GameBoard {
     }
 
     public static void main(String[] args) {
-        GameBoard board = new GameBoard(2, 2, 2, 4, 2);
+        GameBoard board = new GameBoard(2, 2, 2, 2, 2);
         
         board.play();
 
