@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
+
 public class GameBoard {
     // [left up, up, right up, right, down right, down, left down, left]
     //(0,0)          (1,0)up,1      (2,0)         
@@ -43,90 +44,76 @@ public class GameBoard {
         this.numElpahnet = numElephant;
         this.board = new Square[this.squaresWide][this.squaresTall];
         this.randomNumber = new Random(); 
-        this.mice = new LinkedList<>();
-        this.elephants = new LinkedList<>();
+        this.mice = new ArrayList<>();
+        this.elephants = new ArrayList<>();
 
 
     }
-    /*to start my game i need to make all my elephants and mice first 
-    then start my game
+    /*to start the game I need to make all my elephants and mice first 
+    then start the game
     */
     public boolean play(){
         //generate number of elephants and mice
-        int elephcounter = 0;
+        int elephantCounter = 0;
         int mouseCounter = 0;
-        int randomNumberOfX; //= this.randomNumber.nextInt(squaresWide) ;
-        int randomNumberOfY; //= this.randomNumber.nextInt(squaresTall) ;
-        //boolean elephantcreate = false;
+        int randomNumberOfX; 
+        int randomNumberOfY; 
 
-        while(elephcounter != this.numElpahnet){ 
+        //create all elephants
+        int elephantIndex = 1;
+        while(elephantCounter != this.numElpahnet){ 
             randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
             randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;
             while(true){        
-           
-                //if it is empty no one is there
+                //if in this position square exist check if it is empty or if elephant is there
                 if(this.board[randomNumberOfX][randomNumberOfY] != null){
                     if(this.board[randomNumberOfX][randomNumberOfY].isEmpty()){
-                        Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elphant", this);
-                        System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
+                        Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, elephantIndex  , this);
                         board[randomNumberOfX][randomNumberOfY].addElephant(el);
-                        //elephantcreate = true;
+                        this.elephants.add(el);
+                        elephantIndex++;
                         break;
-                        }else{//there is elephant create another random numbers.
-                            System.out.println("alreday this position exist");
-                            randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
-                            randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;
-                            
-                        }             
-                }
-                        //create new square and put the elephant in side.
-                else{ 
+                    }else{//there is elephant create another random numbers.
+                            randomNumberOfX = this.randomNumber.nextInt(squaresWide);
+                            randomNumberOfY = this.randomNumber.nextInt(squaresTall); 
+                    }             
+                }else{//create new square and put the elephant in side.
                     board[randomNumberOfX][randomNumberOfY] = new Square(randomNumberOfX, randomNumberOfY);
-                    System.out.println("there was no square make new with X : " + randomNumberOfX  + " and new Y : " + randomNumberOfY ); 
-                    Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, "elphant", this);
+                    Elephant el = new Elephant(randomNumberOfX, randomNumberOfY, elephantIndex, this);
                     board[randomNumberOfX][randomNumberOfY].addElephant(el);
-                    //elephantcreate = true;
-
+                    this.elephants.add(el);
+                    elephantIndex++;
                     break;
                 }
             }
-        elephcounter++;
+        elephantCounter++;
         }
-
-
+        //create all mice
+        int mouseIndex = 1;
         while(mouseCounter != this.numMice){ 
             randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
             randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;
             while(true){        
-                //if it is empty no one is there
+                /*if in this position square exist check if it is empty or mice is there put elephant inside this square
+                if elephant is there we generate another random number and check the square in that new position
+                */
                 if(this.board[randomNumberOfX][randomNumberOfY] != null){
-                    if(this.board[randomNumberOfX][randomNumberOfY].isEmpty()){
-                        Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, "mouse", this);
-                        System.out.println("X : " + randomNumberOfX  + " y : " + randomNumberOfY + "\n");
+                    if(!this.board[randomNumberOfX][randomNumberOfY].elephantIsHere()){
+                        Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, mouseIndex , this);
                         board[randomNumberOfX][randomNumberOfY].addMouse(m);
-                        //mousecreate = true;
+                        this.mice.add(m);
+                        mouseIndex++;
                         break;
-                    }
-                    else if(this.board[randomNumberOfX][randomNumberOfY].mouseIsHere()){
-                        Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, "mouse", this);
-                        this.board[randomNumberOfX][randomNumberOfY].addMouse(m);
-                        System.out.println("added another mouse in this position");
-                        break;
-
                     }else{
-                            System.out.println("alreday this position exist, create new one ( " + randomNumberOfX +", " +randomNumberOfY + ")" );
-                            randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
-                            randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;
-                            
-                        }             
-                }
-                        //create new square and put the mouse in side.
-                else{ 
+                        randomNumberOfX = this.randomNumber.nextInt(squaresWide) ;
+                        randomNumberOfY = this.randomNumber.nextInt(squaresTall) ;    
+                    }             
+                }else{ //create new square and put the mouse inside.
                     board[randomNumberOfX][randomNumberOfY] = new Square(randomNumberOfX, randomNumberOfY);
-                    System.out.println("there was no square make new with X : " + randomNumberOfX  + " and new Y : " + randomNumberOfY ); 
-                    Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, "mouse", this);
+                    Mouse m = new Mouse(randomNumberOfX, randomNumberOfY, mouseIndex , this);
                     board[randomNumberOfX][randomNumberOfY].addMouse(m);
-                    //elephantcreate = true;
+                    this.mice.add(m);
+                    mouseIndex++;
                     break;
                 }
             }
@@ -134,6 +121,8 @@ public class GameBoard {
         }
         return true;
     }
+
+
 
     public boolean moveMouse(int dir, Mouse m){
         int[] position = this.move(dir , m.getX() , m.getX() , m.getSteps() );
@@ -217,40 +206,29 @@ public class GameBoard {
         return result;
     }
 
+    
     public static void main(String[] args) {
-        GameBoard board = new GameBoard(2, 2, 2, 2, 2);
-        
+        GameBoard board = new GameBoard(2, 2, 1, 10, 3);
         board.play();
-
-        // Elephant el = new Elephant(20 , 85, "el" ,board );
-        // board.board[el.getX()][el.getY()] = new Square(el.getX(), el.getY());
-        // board.board[el.getX()][el.getY()].addElephant(el);
-        // System.out.println(el);
-        
+        int i ;
+        for(i = 0 ; i < board.numElpahnet ; i++){
+            
+            System.out.println(board.elephants.get(i));
+        }
+        for(i = 0 ; i < board.numMice ; i ++){
+            System.out.println(board.mice.get(i));
+        }
+    
         // while (el.getX() != el.getY()) {
         //     el.move();
         //     System.out.println(el);
         // }
-
         // board.moveElephant(3, el);
-        // System.out.println(el);
-        // board.moveElephant(1, el);
-        // System.out.println(el);
-        // board.moveElephant(8, el);
-        // System.out.println(el);
-
         // System.out.println(el);
 
         
+     }
 
-        boolean success = board.play();
-        if(success)
-            System.out.println("everythread successfully finished");
-
-        else 
-            System.out.println("everythread was not successfully finished");
-
-    }
 
 }
 

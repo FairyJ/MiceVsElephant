@@ -34,44 +34,39 @@ public class Square {
     public boolean addElephant(Elephant el){
         this.elephants.add(el);
         this.hasElephant = true;
-        System.out.println("added elephant to this square with position (" + this.x + ", " + this.y + ")");
-        numElephant++;
+        this.numElephant++;
         return true;
-    }
-
-    public void removeElephant(Elephant el){
-        this.elephants.remove(el);
-        if(this.elephants.isEmpty())
-            this.hasElephant = false;
-        numElephant--;
     }
 
     public boolean addMouse(Mouse m){
         this.mice.add(m);
         this.hasMouse = true;
-        System.out.println("added mouse to this square with position (" + this.x + ", " + this.y + ")");
-        numMic++; 
+        this.numElephant++; 
         return true;
     }
-
+    public void removeElephant(Elephant el){
+        this.elephants.remove(el);
+        this.numElephant--;
+        if(numElephant==0){
+            this.hasElephant = false;
+        }
+    }
     public void removeMouse(Mouse m){
         this.mice.remove(m);
-        if(this.mice.isEmpty())
+        numMic--;
+        if(this.numMic == 0){
             this.hasMouse = false;
-            numMic--;
+        }      
     }
 
     public boolean isEmpty(){
-        System.out.println("suare is empty");
         return !this.hasElephant  && !this.hasMouse;
     }
 
     public boolean mouseIsHere(){
-        //System.out.println("mouse is here in (" + this.x + ", " + this.y + ")");
         return this.hasMouse;
     }
     public boolean elephantIsHere(){
-       // System.out.println("elephant is here(" + this.x + ", " + this.y + ")");
         return this.hasElephant;
     }
     
