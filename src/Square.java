@@ -30,9 +30,15 @@ public class Square {
     public int getNumMic(){
         return this.numMic;
     }
-    
+    public int getX(){
+        return this.x;
+    }
+    public int getY(){
+        return this.y;
+    }
     public boolean addElephant(Elephant el){
         this.elephants.add(el);
+        el.setSquare(this);
         this.hasElephant = true;
         this.numElephant++;
         return true;
@@ -40,6 +46,7 @@ public class Square {
 
     public boolean addMouse(Mouse m){
         this.mice.add(m);
+        m.setSquare(this);
         this.hasMouse = true;
         this.numElephant++; 
         return true;

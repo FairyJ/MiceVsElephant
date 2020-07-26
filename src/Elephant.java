@@ -1,24 +1,26 @@
 package src;
-import java.util.Random;
+import java.util.*;
 
 public class Elephant extends Thread{
 
     private final int steps = 1;
-    private int nameIndex;
+    private String name;
     private GameBoard board;    
+    private Square square;
     private int x;
     private int y;
     private Random rand;
     private int turn = 0;
     
 
-    public Elephant (int x, int y, int nameIndex , GameBoard board) {
+    public Elephant (int x, int y, String name, GameBoard board) {
         this.x = x;
         this.y = y;
-        this.nameIndex = nameIndex;
+        this.name = name;
         this.board = board;
         this.rand = new Random();
     }
+
     public int getX(){
 
         return this.x;
@@ -40,23 +42,52 @@ public class Elephant extends Thread{
         return this.steps;
     }
 
-    public boolean move() {
-        int randMove = this.rand.nextInt(8) + 1;
-        while (!this.board.moveElephant(randMove , this)) {
-            randMove = this.rand.nextInt(8) + 1;
-        }
-        return true;
-    
-        //if in my strike zone is one mouse run 
-        
-        //if in my strike zone is two mouse freeze
+    public void setSquare(Square square){
+        this.square = square;
+    }
 
-        //if around me is empty move randomly
+    public Square getSquare() {
+        return this.square;
+    }
+
+    public boolean move() {
+        List<Integer> directions = new ArrayList<Integer>(8);
+        for (int i = 0; i < 8; i++){
+            directions.add(i);
+        }
+        Collections.shuffle(directions);
+
+        List<Mouse> mice = board.elephantStrikeZone(this);
+        // if there is mouse in my strike zone 
+        if (!mice.isEmpty()) {
+            // check how many mouse 
+           if( mice.size() > 1){
+                for (int dir = 0; dir < 8; dir++) {
+                    if (this.board.elephantGotFurther(directions.get(dir), mice) && this.board.moveElephant(directions.get(dir), this)) {
+                        return true;
+                    }
+                }
+                return false;
+            }  
+        }
+        // Choose a random direction 
+        for (int dir = 0; dir < 8; dir++) {
+            if (this.board.moveElephant(directions.get(dir), this)) {
+                return true;
+            }
+        }
+        return false;
+    
     }
 
     public String toString() {
-        String result = "Elephant " + this.nameIndex + " to " + this.x + " " + this.y;
+        String result =  this.name + " to " + this.x + " " + this.y ;
         return result;
+    }
+
+
+    public static void main(String[] args) {
+        
     }
 
 }

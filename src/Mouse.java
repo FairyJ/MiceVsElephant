@@ -1,19 +1,22 @@
 package src;
 
+import java.util.*;
+
 public class Mouse extends Thread {
 
     private final int steps = 2;
-    private int nameIndex;
-    private GameBoard board;    
+    private String name;
+    private GameBoard board; 
+    private Square square;  
     private int x;
     private int y;
     private int turn = 0;
 
     
-    public Mouse (int x, int y, int nameIndex, GameBoard board) {
+    public Mouse (int x, int y, String name, GameBoard board) {
         this.x = x;
         this.y = y;
-        this.nameIndex = nameIndex;
+        this.name = name;
         this.board = board;
     }
 
@@ -34,25 +37,50 @@ public class Mouse extends Thread {
         this.y = y;
     }
     
+    public void setSquare(Square square){
+        this.square = square;
+    }
+
+    public Square getSquare(){
+        return this.square;
+    }
+
     public int getSteps(){
         return this.steps;
     }
     public boolean move() {
-        if(this.board.moveMouse(1 , this))
-            return true;
-        else if(this.board.moveMouse(5 , this))
-            return true;
-        else if (this.board.moveMouse(3 , this))           
-            return true;
-        else if(this.board.moveMouse(7, this))
-            return true;
-        else
-            return false;
+        //random direction
+        List<Integer> directions = new ArrayList<Integer>(8);
+        for (int i = 0; i < 8; i++){
+            directions.add(i);
+        }
+        Collections.shuffle(directions);
+        System.out.println(directions);
+
+        if(!board.elephantStrikeZone()){
+            //move randomly into RU RD LU LD
+
+
+        }else{
+            //if this elephant in striking zone is in striking zone of another mouse  then move toward elephant
+            if(!AmIAlone(this)) {
+
+
+            } else {
+                return false;
+            }
+
+
+            //else stay and not move return fasle;
+        }
+
+
+
     
     }
 
     public String toString() {
-        String result = "Mouse " + nameIndex + " to " + this.x + " " + this.y ;
+        String result =  this.name + " to " + this.x + " " + this.y ;
         return result;
     }
 
