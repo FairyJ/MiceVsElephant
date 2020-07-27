@@ -210,6 +210,7 @@ public class GameBoard {
     }
 
 
+    //return list of all mouse around this elephant in striking distance
     public List<Mouse> elephantStrikeZone(Elephant el){
         List<Mouse> miceAroundMe = new LinkedList<>();
         for (Mouse m: this.mice) {
@@ -220,16 +221,29 @@ public class GameBoard {
         return miceAroundMe;
     }
 
-
-    public boolean mouseStrikeZone(Mouse m){
-        
-    
-        return true;
+    //return list of all elephants around this mouse in striking distance
+    public List<Elephant> mouseStrikeZone(Mouse m){
+        List<Elephant> elephantAroundMe = new LinkedList<>();
+        for(Elephant el : this.elephants){
+            if(distance(el.getSquare(), m.getSquare()) <= this.strinkingDistance){
+                elephantAroundMe.add(el);
+            }
+        }
+        return elephantAroundMe;
     }
 
-    
+
     public boolean elephantGotFurther(int dir, Elephant el, List<Mouse> mice) {
-        return true;
+        int[] newPosition = this.move(dir, el.getX(), el.getY(), el.getSteps());
+        for(Mouse m :this.mice){
+            double currentDistance = this.distance(el.getSquare(), m.getSquare());
+            double newDistance = this.distance(new Square(newPosition[0], newPosition[1]), m.getSquare());
+            if(newDistance > currentDistance){
+                return true;
+            }
+            return false;
+        }
+        return false; 
     }
 
 
@@ -241,17 +255,29 @@ public class GameBoard {
         return (newDistance < currentDistance);
     }
 
+
+    //check all elephants striking distance around this mouse to see is it alone or not
+    public boolean AmIAlone(Mouse m){
+        this.mouseStrikeZone(m);
+
+        return true;
+    }
+
+
+
+
     public static void main(String[] args) {
-        GameBoard board = new GameBoard(2, 2, 1, 10, 3);
+        GameBoard board = new GameBoard(2, 3, 1, 10, 3);
         board.play();
-        int i ;
-        for(i = 0 ; i < board.numElephant ; i++){
-            
-            System.out.println(board.elephants.get(i));
+
+        for(Elephant el : board.elephants){
+            System.out.println(el.toString());
         }
-        for(i = 0 ; i < board.numMice ; i ++){
-            System.out.println(board.mice.get(i));
+        for(Mouse m : board.mice){
+            System.out.println(m.toString());
+
         }
+       
         board.elephants.get(0).move();
 
         //for (i = 0; i < 5; i++) {

@@ -61,9 +61,9 @@ public class Elephant extends Thread{
         // if there is mouse in my strike zone 
         if (!mice.isEmpty()) {
             // check how many mouse 
-           if( mice.size() > 1){
+           if(mice.size() > 1){
                 for (int dir = 0; dir < 8; dir++) {
-                    if (this.board.elephantGotFurther(directions.get(dir), mice) && this.board.moveElephant(directions.get(dir), this)) {
+                    if (this.board.elephantGotFurther(directions.get(dir),this, mice) && this.board.moveElephant(directions.get(dir), this)) {
                         return true;
                     }
                 }
