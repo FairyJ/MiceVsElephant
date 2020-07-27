@@ -52,11 +52,11 @@ public class Mouse extends Thread {
     public boolean move() {
         //random direction
         List<Integer> directions = new ArrayList<Integer>(8);
-        for (int i = 0; i < 8; i++){
-            directions.add(i);
-        }
-        Collections.shuffle(directions);
-        System.out.println(directions);
+        // for (int i = 0; i < 8; i++){
+        //     directions.add(i);
+        // }
+        // Collections.shuffle(directions);
+        // System.out.println(directions);
 
         //if mouse is not within striking distance of elephant then move randomly to RU RD LU LD
         if(board.mouseStrikeZone(this).size() == 0){
@@ -66,8 +66,8 @@ public class Mouse extends Thread {
         Collections.shuffle(directions);
 
         }else{
-            //if this elephant in striking zone is in striking zone of another mouse  then move toward elephant
-            // if(!AmIAlone(this)) {
+            //if this elephant is in striking zone is in striking zone of another mouse  then move toward elephant
+            // if(!AmIAlone(this, board.elephantStrikeZone(el)) {
 
             // } else {
             //     return false;
