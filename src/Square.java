@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Square {
-    //my square have x and y and also can hold animal inside
+    //square have x and y and also can hold animal inside
     //square position
     private final int x;
     private final int y;
@@ -14,8 +14,6 @@ public class Square {
     private boolean hasMouse;
     private int numMic = 0;
     private int numElephant = 0;
-    private final int limitNumElphant = 1;//can only hold one elephant 
-    
 
     //constructor
     public Square(int x, int y) {

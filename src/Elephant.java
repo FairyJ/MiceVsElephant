@@ -9,16 +9,13 @@ public class Elephant extends Thread{
     private Square square;
     private int x;
     private int y;
-    private Random rand;
     private int turn = 0;
     
-
     public Elephant (int x, int y, String name, GameBoard board) {
         this.x = x;
         this.y = y;
         this.name = name;
         this.board = board;
-        this.rand = new Random();
     }
 
     public int getX(){
@@ -56,7 +53,6 @@ public class Elephant extends Thread{
             directions.add(i);
         }
         Collections.shuffle(directions);
-
         List<Mouse> mice = board.elephantStrikeZone(this);
         // if there is mouse in my strike zone 
         if (!mice.isEmpty()) {
@@ -77,17 +73,11 @@ public class Elephant extends Thread{
             }
         }
         return false;
-    
     }
 
     public String toString() {
         String result =  this.name + " to " + this.x + " " + this.y ;
         return result;
-    }
-
-
-    public static void main(String[] args) {
-        
     }
 
 }
