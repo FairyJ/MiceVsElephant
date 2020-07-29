@@ -54,6 +54,10 @@ public class Elephant extends Thread{
         }
         Collections.shuffle(directions);
         List<Mouse> mice = board.elephantStrikeZone(this);
+        //is there any mouse on top of me? check square to see this elephant is alone or not
+            //if is one snort the mouse,call snort method and pass this mouse on top of me
+            //else kill myself
+        //else check my striking distance
         // if there is mouse in my strike zone 
         if (!mice.isEmpty()) {
             // check how many mouse 
@@ -87,7 +91,7 @@ public class Elephant extends Thread{
                 //shot the mouse
                 
             }else{
-                board.killElephant();
+                board.killElephant(this);
             }
         } 
     }

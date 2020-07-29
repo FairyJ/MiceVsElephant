@@ -9,6 +9,7 @@ import java.util.ListIterator;
 import java.util.Random;
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -278,8 +279,31 @@ public class GameBoard {
         return elephantAroundMeWithMice;
     }
 
+    public List<Elephant> mouseBackup(List<Mouse> mList , List<Elephant> elList){
+        List<Elephant> goCloserTo = new ArrayList<>();
+        for(Elephant el : this.elephants){
+            for(Mouse mice : mice){
+                double currentDistanceElMice = this.distance(mice.getSquare(), el.getSquare());
+                for(int i = 0 ; i < 8 ; i++){
+                    int[] newPosition = this.move(i, mice.getX(), mice.getY(), mice.getSteps());
+                    double newDistance = this.distance(new Square(newPosition[0], newPosition[1]), el.getSquare());
+                    if(newDistance < currentDistanceElMice){
+                        goCloserTo.add(el);
+                    }
+
+                }
+
+            }
+
+        }
+        return goCloserTo;
+    }
+
+
     public List<Integer> closestElephantToMe(Mouse m , List<Elephant> elephants){
         List<Integer> distanceToElephant = new ArrayList<>();
+
+        
         for(Elephant el : this.elephants){
             double currentDistance = this.distance(m.getSquare(), el.getSquare());
             for(int i = 0 ; i < 8 ; i++){
@@ -293,13 +317,26 @@ public class GameBoard {
         return distanceToElephant;
     }
 
+    public void snort (Mouse m ){
+        //random direction 
+        List<Integer> directions = new ArrayList<Integer>(8);
+        for (int i = 0; i < 8; i++) {
+            directions.add(i);
+        }
+        Collections.shuffle(directions);
+        for (int dir = 0; dir < 8; dir++) {
+        int [] newSquare = this.move(dir, m.getX(), m.getY(), 2*strikingDistance);
 
-    public List<Elephant> killElephant(){
+
+        }  
+    }
+
+    public List<Elephant> killElephant(Elephant el){
 
         return elephants;
     }
-    public List<Mouse> killMouse(){
-        
+    public List<Mouse> killMouse(Mouse m){
+
         return mice;
     }
 

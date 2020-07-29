@@ -84,8 +84,9 @@ public class Mouse extends Thread {
                 //     }
                 // }
                 List<Integer> closestOnes = board.closestElephantToMe(this,newEl);
-                Collections.sort(closestOnes);
+                //Collections.sort(closestOnes);
                 for(int i = 0 ; i < closestOnes.size() ; i++){
+                    
                     board.moveMouse(i, this);
                 }    
             } 
