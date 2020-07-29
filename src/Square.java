@@ -46,7 +46,7 @@ public class Square {
         this.mice.add(m);
         m.setSquare(this);
         this.hasMouse = true;
-        this.numElephant++; 
+        this.numMic++; 
         return true;
     }
     public void removeElephant(Elephant el){

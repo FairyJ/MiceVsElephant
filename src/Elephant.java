@@ -60,21 +60,37 @@ public class Elephant extends Thread{
            if(mice.size() > 1){
                 for (int dir = 0; dir < 8; dir++) {
                     if (this.board.elephantGotFurther(directions.get(dir),this, mice) && this.board.moveElephant(directions.get(dir), this)) {
+                        turn++;
                         return true;
                     }
                 }
+                turn++;
                 return false;
             }  
         }
         // Choose a random direction 
         for (int dir = 0; dir < 8; dir++) {
             if (this.board.moveElephant(directions.get(dir), this)) {
+                turn++;
                 return true;
             }
         }
+        turn++;
         return false;
     }
 
+    public void tempRun(){
+        if(!this.square.mouseIsHere()) {
+            this.move();
+        }else{
+            if(this.square.getNumMic() ==1){
+                //shot the mouse
+                
+            }else{
+                board.killElephant();
+            }
+        } 
+    }
     public String toString() {
         String result =  this.name + " to " + this.x + " " + this.y ;
         return result;

@@ -5,8 +5,11 @@
 package src;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
-import java.lang.Math; 
+import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -36,7 +39,7 @@ public class GameBoard {
     private List<Elephant> elephants;
     
 
-    public GameBoard(int squaresWide, int squaresTall, int strikingDistance, int numMice, int numElephant) {
+    public GameBoard(int squaresWide, int squaresTall, int strikingDistance,  int numElephant, int numMice) {
         this.squaresWide = squaresWide;
         this.squaresTall = squaresTall;
         this.strikingDistance = strikingDistance;
@@ -162,6 +165,29 @@ public class GameBoard {
     /*
 
     */
+    public boolean moveElephant(int dir, Elephant el){
+        int[] position = this.move(dir , el.getX() , el.getY() , el.getSteps() );
+        //if is out of board boundary
+        if(position[0] < 0 || position[0] > squaresWide-1 || position[1] < 0 || position[1] > squaresTall-1){
+            return false;
+        }
+        //check if there is square and elephant is there can not move into this square
+        if(this.board[position[0]][position[1]] != null && this.board[el.getX()][el.getY()].elephantIsHere()){
+            return false; 
+        }
+        //move
+        this.board[el.getX()][el.getY()].removeElephant(el);
+        el.setX(position[0]); 
+        el.setY(position[1]);
+        if (this.board[position[0]][position[1]] != null) {
+            this.board[position[0]][position[1]].addElephant(el);
+        } else {
+            this.board[position[0]][position[1]] = new Square(position[0], position[1]);
+            this.board[position[0]][position[1]].addElephant(el);
+        }
+        return true;
+    }
+
     public boolean moveMouse(int dir, Mouse m){
         int[] position = this.move(dir , m.getX() , m.getY() , m.getSteps() );
         if(position[0] < 0 || position[0] > squaresWide-1 || position[1] < 0 || position[1] > squaresTall-1){
@@ -178,28 +204,7 @@ public class GameBoard {
         } 
         return true;
     }
-    public boolean moveElephant(int dir, Elephant el){
-        int[] position = this.move(dir , el.getX() , el.getY() , el.getSteps() );
-        //if is out of board boundary
-        if(position[0] < 0 || position[0] > squaresWide-1 || position[1] < 0 || position[1] > squaresTall-1){
-            return false;
-        }
-        //check if there is square and elephant is there can not move into this square
-        if(this.board[el.getX()][el.getY()]!= null && this.board[el.getX()][el.getY()].elephantIsHere()){
-            return false; 
-        }
-        //move
-        this.board[el.getX()][el.getY()].removeElephant(el);
-        el.setX(position[0]); 
-        el.setY(position[1]);
-        if (this.board[position[0]][position[1]] != null) {
-            this.board[position[0]][position[1]].addElephant(el);
-        } else {
-            this.board[position[0]][position[1]] = new Square(position[0], position[1]);
-            this.board[position[0]][position[1]].addElephant(el);
-        }
-        return true;
-    }
+   
 
     /*
     calculate distance between two animals
@@ -244,10 +249,9 @@ public class GameBoard {
             double newDistance = this.distance(new Square(newPosition[0], newPosition[1]), m.getSquare());
             if(newDistance < currentDistance){
                 return false;
-
             }
         }
-        return false; 
+        return true; 
     }
 
     /*
@@ -266,7 +270,7 @@ public class GameBoard {
     */
     public List<Elephant> AmIAlone(Mouse m, List<Elephant> elephant){
         List<Elephant> elephantAroundMeWithMice = new LinkedList<>();
-        for(Elephant el: elephant){
+        for(Elephant el : elephant){
             if (this.elephantStrikeZone(el).size() > 1){
                 elephantAroundMeWithMice.add(el);
             }
@@ -274,21 +278,96 @@ public class GameBoard {
         return elephantAroundMeWithMice;
     }
 
+    public List<Integer> closestElephantToMe(Mouse m , List<Elephant> elephants){
+        List<Integer> distanceToElephant = new ArrayList<>();
+        for(Elephant el : this.elephants){
+            double currentDistance = this.distance(m.getSquare(), el.getSquare());
+            for(int i = 0 ; i < 8 ; i++){
+                int[] newPosition = this.move(i, m.getX(), m.getY(), m.getSteps());
+                double newDistance = this.distance(new Square(newPosition[0], newPosition[1]), el.getSquare());
+                if(newDistance < currentDistance ){
+                    distanceToElephant.add(i);
+                }
+            }    
+        }
+        return distanceToElephant;
+    }
 
 
+    public List<Elephant> killElephant(){
+
+        return elephants;
+    }
+    public List<Mouse> killMouse(){
+        
+        return mice;
+    }
+
+    // * One elephant and multiple mice
+    // V one elephant and one mouse
+    // S multiple mice no elephant
+    // M one mouse no elephant
+    // E one elephant no mouse
+    public String toString() {
+        String result = "";
+        for (int i = 0; i < this.squaresTall; i++ ) {
+            int j;
+            for ( j = 0; j < this.squaresWide; j ++) {
+                result += "+---";
+            }
+            result += "+\n";
+            for (j = 0; j < this.squaresWide; j ++) {
+                if (board[j][i] == null || board[j][i].isEmpty()) {
+                    result += "|   ";
+                }else if (board[j][i].mouseIsHere() && board[j][i].elephantIsHere()) {
+                    if (board[j][i].getNumMic() > 1) {
+                        result += "| * ";
+                    } else {
+                        result += "| V ";
+                    }
+                } else if (board[j][i].mouseIsHere()) {
+                    if (board[j][i].getNumMic() > 1) {
+                        result += "| S ";
+                    } else {
+                        result += "| M ";
+                    }
+                } else {
+                    result += "| E ";
+                }       
+            }
+            result += "|\n";
+        }
+        for (int j = 0; j < this.squaresWide; j ++) {
+            result += "+---";
+        }    
+        result += "+\n";
+        return result;
+    }
+    
 
     public static void main(String[] args) {
-        GameBoard board = new GameBoard(2, 4, 2, 10, 3);
+        //ask user
+        // Scanner input = new Scanner(System.in);
+        // System.out.println("Enter dimensions of the grid first wide then tall ,striking distance, ");
+
+        GameBoard board = new GameBoard(6, 6, 1, 2, 5);
         board.play();
+        System.out.println(board);
+        System.out.println("move animals");
 
         for(Elephant el : board.elephants){
-            System.out.println(el.toString());
+            el.move();
+            System.out.println(board);
+            //System.out.println(el.toString() + "\n");
         }
         for(Mouse m : board.mice){
-            System.out.println(m.toString());
+            m.move();
+            System.out.println(board);
+            //System.out.println(m.toString() + "\n");
+           
         }
+        
 
-        board.elephants.get(0).move();
         
         //for (i = 0; i < 5; i++) {
         //    System.out.println(board.elephants.get(i%board.numElephant).move());
@@ -296,7 +375,7 @@ public class GameBoard {
         // board.moveElephant(3, el);
         // System.out.println(el);
         
-     }
+    }
 
 
 }
