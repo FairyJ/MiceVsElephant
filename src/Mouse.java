@@ -51,8 +51,8 @@ public class Mouse extends Thread {
     public boolean move() {
         List<Elephant> el = board.mouseStrikeZone(this);
         List<Integer> directions;
-        // if mouse is not within striking distance of elephant then move randomly to RU
-        // RD LU LD
+        // if mouse is not within striking distance of elephant then move randomly to 
+        // RU RD LU LD
         if (el.size() == 0) {
             directions= new ArrayList<Integer>(4);
             for (int i = 0; i < 4; i++) {
@@ -60,48 +60,31 @@ public class Mouse extends Thread {
             }
             Collections.shuffle(directions);
             for (int i = 0; i < 4; i++) {
-                this.board.moveMouse(directions.get(i), this);
+                if(this.board.moveMouse(directions.get(i), this)){
+                    break;
+                }  
             }
             turn++;
-            return true;
+                return true;
+            
         } else {
-            //if this elephant is in striking zone is in striking zone of another mouse then move toward elephant
-            // random direction
-            // directions = new ArrayList<Integer>(8);
-            // for (int i = 0; i < 8; i++) {
-            //     directions.add(i);
-            // }
-            //Collections.shuffle(directions);
             List<Elephant> newEl = board.AmIAlone(this, el);
             if (newEl.size() > 0) {//you are not alone
-                // for (Elephant elephant : newEl) {
-                //     for (int i = 0; i < 8 ; i++) {
-                //         if (this.board.miceGotCloser(directions.get(i), this, elephant)) {
-                //             this.board.moveMouse(directions.get(i), this);
-                //             turn++;
-                //             return true;
-                //         }
-                //     }
-                // }
-                List<Integer> closestOnes = board.closestElephantToMe(this,newEl);
-                //Collections.sort(closestOnes);
-                for(int i = 0 ; i < closestOnes.size() ; i++){
-                    
-                    board.moveMouse(i, this);
-                }    
+                Elephant closestOnes = board.closestElephantToMe(this,newEl);
+                
+                turn++;
+                return true;   
             } 
-            // 
+            
         }
         turn++;
         return false;
-    }
-
-    public void tempRun(){
-
     }
 
     public String toString() {
         String result = this.name + " to " + this.x + " " + this.y;
         return result;
     }
+    
+
 }
