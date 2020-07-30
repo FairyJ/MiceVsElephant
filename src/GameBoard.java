@@ -279,13 +279,14 @@ public class GameBoard {
         return elephantAroundMeWithMice;
     }
 
-    public List<Elephant> mouseBackup(List<Mouse> mList , List<Elephant> elList){
+    public List<Elephant> mouseBackup(List<Elephant> elList){
         List<Elephant> goCloserTo = new ArrayList<>();
         for(Elephant el : this.elephants){
-            for(Mouse mice : mice){
-                double currentDistanceElMice = this.distance(mice.getSquare(), el.getSquare());
+            List<Mouse> mice = this.elephantStrikeZone(el);
+            for(Mouse m : mice){
+                double currentDistanceElMice = this.distance(m.getSquare(), el.getSquare());
                 for(int i = 0 ; i < 8 ; i++){
-                    int[] newPosition = this.move(i, mice.getX(), mice.getY(), mice.getSteps());
+                    int[] newPosition = this.move(i, m.getX(), m.getY(), m.getSteps());
                     double newDistance = this.distance(new Square(newPosition[0], newPosition[1]), el.getSquare());
                     if(newDistance < currentDistanceElMice){
                         goCloserTo.add(el);
