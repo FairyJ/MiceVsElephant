@@ -65,17 +65,21 @@ public class Mouse extends Thread {
                 }  
             }
             turn++;
-                return true;
+            return true;
             
         } else {
             List<Elephant> newEl = board.AmIAlone(this, el);
+            directions = new ArrayList<Integer>(8);
             if (newEl.size() > 0) {//you are not alone
                 Elephant closestOnes = board.closestElephantToMe(this,newEl);
-                
+                for (int dir = 0; dir < 8;) {
+                    if (this.board.miceGotCloser(directions.get(dir),this, closestOnes)) {
+                        break;
+                    }
                 turn++;
-                return true;   
-            } 
-            
+                return true;
+                }   
+            }  
         }
         turn++;
         return false;
