@@ -47,51 +47,41 @@ public class Elephant extends Thread{
         return this.square;
     }
 
-    public boolean move() {
-        List<Integer> directions = new ArrayList<Integer>(8);
-        for (int i = 0; i < 8; i++){
-            directions.add(i);
-        }
-        Collections.shuffle(directions);
-        List<Mouse> mice = board.elephantStrikeZone(this);
-        //is there any mouse on top of me? check square to see this elephant is alone or not
-        if(this.square.mouseIsHere()){
-            //if is one snort the mouse,call snort method and pass this mouse on top of me
-            if(this.square.getNumMic() == 1){
-                //?????????????????????????????????????????
-                board.snort(mice.get(0));
-            }else{//else kill myself
-                board.killElephant(this);
-            }
-            
-        }
-            
-        //else check my striking distance
-        // if there is mouse in my strike zone 
-        if (!mice.isEmpty()) {
-            // check how many mouse 
-           if(mice.size() > 1){
-                for (int dir = 0; dir < 8; dir++) {
-                    if (this.board.elephantGotFurther(directions.get(dir),this, mice) && this.board.moveElephant(directions.get(dir), this)) {
-                        turn++;
-                        return true;
-                    }
-                }
-                turn++;
-                return false;
-            }  
-        }
-        // Choose a random direction 
-        for (int dir = 0; dir < 8; dir++) {
-            if (this.board.moveElephant(directions.get(dir), this)) {
-                turn++;
-                return true;
-            }
-        }
-        turn++;
-        return false;
-    }
-
+    // public boolean move() {
+    //     List<Integer> directions = new ArrayList<Integer>(8);
+    //     for (int i = 0; i < 8; i++){
+    //         directions.add(i);
+    //     }
+    //     Collections.shuffle(directions);
+    //     List<Mouse> mice = board.elephantStrikeZone(this);
+    //     //is there any mouse on top of me? check square to see this elephant is alone or not
+    //         //if is one snort the mouse,call snort method and pass this mouse on top of me
+    //         //else kill myself
+    //     //else check my striking distance
+    //     // if there is mouse in my strike zone 
+    //     if (!mice.isEmpty()) {
+    //         // check how many mouse 
+    //        if(mice.size() > 1){
+    //             for (int dir = 0; dir < 8; dir++) {
+    //                 if (this.board.elephantGotFurther(directions.get(dir),this, mice) && this.board.moveElephant(directions.get(dir), this)) {
+    //                     turn++;
+    //                     return true;
+    //                 }
+    //             }
+    //             turn++;
+    //             return false;
+    //         }  
+    //     }
+    //     // Choose a random direction 
+    //     for (int dir = 0; dir < 8; dir++) {
+    //         if (this.board.moveElephant(directions.get(dir), this)) {
+    //             turn++;
+    //             return true;
+    //         }
+    //     }
+    //     turn++;
+    //     return false;
+    // }
 
     public String toString() {
         String result =  this.name + " to " + this.x + " " + this.y ;

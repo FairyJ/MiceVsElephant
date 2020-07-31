@@ -2,25 +2,24 @@ package src;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Point;
 
 public class Square {
     //square have x and y and also can hold animal inside
     //square position
     private final int x;
     private final int y;
-    private List<Mouse> mice;
-    private List<Elephant> elephants;
+    private List<Animal> mice = new ArrayList<>();;
+    private List<Animal> elephants = new ArrayList<>();
     private boolean hasElephant;
     private boolean hasMouse;
     private int numMic = 0;
     private int numElephant = 0;
 
     //constructor
-    public Square(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.elephants = new ArrayList<>();
-        this.mice = new ArrayList<>();;
+    public Square(Point position) {
+        this.x = position.x;
+        this.y = position.y;
         this.hasElephant = false;
         this.hasMouse = false;
     }
@@ -28,40 +27,49 @@ public class Square {
     public int getNumMic(){
         return this.numMic;
     }
-    public int getX(){
-        return this.x;
+    public Point getPosition(){
+        return new Point(this.x, this.y);
     }
-    public int getY(){
-        return this.y;
+
+    public Animal getMouse(int i) {
+        return this.mice.get(i);
     }
-    public boolean addElephant(Elephant el){
-        this.elephants.add(el);
-        el.setSquare(this);
-        this.hasElephant = true;
-        this.numElephant++;
+    public boolean addAnimal(Animal animal){
+        if (animal.getType() == Animal.aType.ELEPHANT) {
+            this.elephants.add(animal);
+            this.hasElephant = true;
+            this.numElephant++;
+        } else if (animal.getType() == Animal.aType.MOUSE) {
+            this.mice.add(animal);
+            this.hasMouse = true;
+            this.numMic++; 
+        } else {
+            return false;
+        }
+        
+        animal.setSquare(this);
         return true;
     }
 
-    public boolean addMouse(Mouse m){
-        this.mice.add(m);
-        m.setSquare(this);
-        this.hasMouse = true;
-        this.numMic++; 
-        return true;
-    }
-    public void removeElephant(Elephant el){
-        this.elephants.remove(el);
-        this.numElephant--;
-        if(numElephant==0){
+    public boolean removeAnimal(Animal animal){
+        if (animal.getType() == Animal.aType.ELEPHANT) {
+            this.elephants.remove(animal);
+            this.numElephant--;
+        } else if (animal.getType() == Animal.aType.MOUSE) {
+            this.mice.remove(animal);
+            this.numMic--; 
+        } else {
+            return false;
+        }
+        
+        if(this.numElephant == 0){
             this.hasElephant = false;
         }
-    }
-    public void removeMouse(Mouse m){
-        this.mice.remove(m);
-        numMic--;
         if(this.numMic == 0){
             this.hasMouse = false;
-        }      
+        } 
+        // animal.removeSquare();
+        return true;
     }
 
     public boolean isEmpty(){

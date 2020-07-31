@@ -48,47 +48,58 @@ public class Mouse extends Thread {
         return this.steps;
     }
 
-    public boolean move() {
-        List<Elephant> el = board.mouseStrikeZone(this);
-        List<Integer> directions;
-        // if mouse is not within striking distance of elephant then move randomly to 
-        // RU RD LU LD
-        if (el.size() == 0) {
-            directions= new ArrayList<Integer>(4);
-            for (int i = 0; i < 4; i++) {
-                directions.add(i * 2);
-            }
-            Collections.shuffle(directions);
-            for (int i = 0; i < 4; i++) {
-                if(this.board.moveMouse(directions.get(i), this)){
-                    break;
-                }  
-            }
-            turn++;
-            return true;
-            
-        } else {
-            List<Elephant> newEl = board.AmIAlone(this, el);
-            directions = new ArrayList<Integer>(8);
-            if (newEl.size() > 0) {//you are not alone
-                Elephant closestOnes = board.closestElephantToMe(this,newEl);
-                for (int dir = 0; dir < 8;) {
-                    if (this.board.miceGotCloser(directions.get(dir),this, closestOnes)) {
-                        break;
-                    }
-                turn++;
-                return true;
-                }   
-            }  
-        }
-        turn++;
-        return false;
-    }
+    // public boolean move() {
+    //     List<Elephant> el = board.mouseStrikeZone(this);
+    //     List<Integer> directions;
+    //     // if mouse is not within striking distance of elephant then move randomly to RU
+    //     // RD LU LD
+    //     if (el.size() == 0) {
+    //         directions= new ArrayList<Integer>(4);
+    //         for (int i = 0; i < 4; i++) {
+    //             directions.add(i * 2);
+    //         }
+    //         Collections.shuffle(directions);
+    //         for (int i = 0; i < 4; i++) {
+    //             if (this.board.moveMouse(directions.get(i), this)) {
+    //                 break;
+    //             }
+    //         }
+    //         turn++;
+    //         return true;
+    //     } else {
+    //         //if this elephant is in striking zone is in striking zone of another mouse then move toward elephant
+    //         // random direction
+    //         // directions = new ArrayList<Integer>(8);
+    //         // for (int i = 0; i < 8; i++) {
+    //         //     directions.add(i);
+    //         // }
+    //         //Collections.shuffle(directions);
+    //         List<Elephant> newEl = board.AmIAlone(this, el);
+    //         if (newEl.size() > 0) {//you are not alone
+    //             // for (Elephant elephant : newEl) {
+    //             //     for (int i = 0; i < 8 ; i++) {
+    //             //         if (this.board.miceGotCloser(directions.get(i), this, elephant)) {
+    //             //             this.board.moveMouse(directions.get(i), this);
+    //             //             turn++;
+    //             //             return true;
+    //             //         }
+    //             //     }
+    //             // }
+    //             List<Integer> closestOnes = board.closestElephantToMe(this,newEl);
+    //             //Collections.sort(closestOnes);
+    //             for(int i = 0 ; i < closestOnes.size() ; i++){
+                    
+    //                 board.moveMouse(i, this);
+    //             }    
+    //         } 
+    //         // 
+    //     }
+    //     turn++;
+    //     return false;
+    // }
 
     public String toString() {
         String result = this.name + " to " + this.x + " " + this.y;
         return result;
     }
-    
-
 }
