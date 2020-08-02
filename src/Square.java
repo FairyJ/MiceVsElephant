@@ -1,12 +1,13 @@
 package src;
-
+/*
+  square knows about position and list of animals
+*/
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Point;
 
 public class Square {
     //square have x and y and also can hold animal inside
-    //square position
     private final int x;
     private final int y;
     private List<Animal> mice = new ArrayList<>();;
@@ -16,7 +17,6 @@ public class Square {
     private int numMic = 0;
     private int numElephant = 0;
 
-    //constructor
     public Square(Point position) {
         this.x = position.x;
         this.y = position.y;
