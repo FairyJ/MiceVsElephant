@@ -15,8 +15,7 @@ import java.util.concurrent.*;
 
 public class GameBoard {
 
-    // private CountDownLatch latch = new CountDownLatch(1);
-    private CyclicBarrier barrier;
+    private Phaser phaser;
 
     /*  Direction Reference
         [Left Up, UP, Right Up, RIGHT, Right Down, DOWN, Left Down, LEFT]
@@ -53,7 +52,7 @@ public class GameBoard {
         this.strikingDistance = strikingDistance;
         this.numMice = numMice;
         this.numElephant = numElephant;
-        this.barrier = new CyclicBarrier(numMice + numElephant);
+        this.phaser = new Phaser(numMice + numElephant);
         this.board = new Square[this.squaresWide][this.squaresTall];
     }
 
@@ -133,7 +132,7 @@ public class GameBoard {
         //create all elephants
         for (int i = 0; i < this.numElephant; i++) {
             p = new Point(randomNumber.nextInt(squaresWide), randomNumber.nextInt(squaresWide));
-            Animal el = new Animal(this, Animal.aType.ELEPHANT, this.barrier);
+            Animal el = new Animal(this, Animal.aType.ELEPHANT, this.phaser);
             while(true){       
                 //if in this position square exist check if it is empty or if elephant is there
                 if(this.board[p.x][p.y] != null){
@@ -158,7 +157,7 @@ public class GameBoard {
         //create all mice
         for (int i = 0; i < this.numMice; i++) { 
             p = new Point(randomNumber.nextInt(squaresWide), randomNumber.nextInt(squaresWide));
-            Animal m = new Animal(this, Animal.aType.MOUSE, this.barrier);
+            Animal m = new Animal(this, Animal.aType.MOUSE, this.phaser);
             while(true){        
                 if(this.board[p.x][p.y] != null){
                     if(!this.board[p.x][p.y].elephantIsHere()){
@@ -181,7 +180,6 @@ public class GameBoard {
 
         // System.out.println(this);
         System.out.println("Started all Animals. Mice size: " + this.mice.size() + " Elephants size: " + this.elephants.size());
-        // latch.countDown();
         
         // Waiting for threads to finis
         // remove them from the list and squares and clean up
@@ -219,6 +217,7 @@ public class GameBoard {
                             this.board[curSquare.getPosition().x][curSquare.getPosition().y] = null;
                         }
                         elephantsItr.remove();
+                        this.numElephant--;
                     }
                 } 
 
@@ -242,19 +241,19 @@ public class GameBoard {
                             this.board[curSquare.getPosition().x][curSquare.getPosition().y] = null;
                         }
                         miceItr.remove();
+                        this.numMice--;
                     }
                 }
-                this.barrier = new CyclicBarrier(this.mice.size() + this.elephants.size());    
-                this.barrier.reset();
             }
         }
-        System.out.println("Elephants list size: " + this.elephants.size() + " mice list size: " + this.mice.size());
     }
     
-    public int numElephant() {
-        synchronized (this.elephants) {
-            return this.elephants.size();
-        }
+    public synchronized int getNumElephant() {
+        return this.elephants.size();
+    }
+
+    public synchronized int getNumMic() {
+        return this.mice.size();
     }
 
     /*
@@ -282,9 +281,10 @@ public class GameBoard {
         Calculates the distance between two point 
     */
     public double distance( Square a, Square b) {
-        return Math.sqrt(Math.pow((a.getPosition().x - b.getPosition().x), 2) + Math.pow((a.getPosition().y - b.getPosition().y), 2));
+        double distance = Math.sqrt(Math.pow((a.getPosition().x - b.getPosition().x), 2) + Math.pow((a.getPosition().y - b.getPosition().y), 2));
+        // System.out.println("Distance between " + a.getPosition() + " and " + b.getPosition() + " is: " + distance);
+        return distance;
     }
-    
 
     // * One elephant and multiple mice
     // V one elephant and one mouse
@@ -326,24 +326,6 @@ public class GameBoard {
         result += "+\n";
         return result;
     }
-    
-
-    // public static void main(String[] args) {
-
-    //     if (args.length != 5) {
-    //         System.out.println("Wrong number of inputs.\nPlease Follow the format below:\n\tjava Main.java Width Height StrikingDistance NumElephants NumMice\n");
-    //     } else {
-
-    //         GameBoard board = new GameBoard(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
-    //         // System.out.println(board);
-    //         System.out.println("=====>        Start        <====");
-    //         board.play();
-    //         System.out.println("<=====         End         ====>");
-    //     }
-
-        
-    // }
-
 
 }
 

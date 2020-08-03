@@ -19,8 +19,7 @@ public class Animal extends Thread {
     private final List<Integer> allDirections = new ArrayList<Integer>(8);
     private final List<Integer> diagonalDirections = new ArrayList<Integer>(4);
 
-    // private CountDownLatch latch;
-    private CyclicBarrier barrier;
+    private Phaser phaser;
 
     
     private int myId;
@@ -34,9 +33,8 @@ public class Animal extends Thread {
     private final GameBoard board;
     
     // public Animal (Point position, GameBoard board, aType type, CountDownLatch latch) {
-    public Animal (GameBoard board, aType type, CyclicBarrier barrier) {
-        // this.latch = latch;
-        this.barrier = barrier;
+    public Animal (GameBoard board, aType type, Phaser phaser) {
+        this.phaser = phaser;
         this.myType = type;
         this.dead = false;
         this.board = board;
@@ -89,23 +87,11 @@ public class Animal extends Thread {
 
     @Override
     public void run() {
-        // All Threads are waiting until Latch is released
-        // try {
-        //     this.latch.await();
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
 
         while (true) {
             this.turnNum++;
-            try {
-                this.barrier.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (BrokenBarrierException e) {
-                System.out.println("Broken Barrier!");
-                e.printStackTrace();
-            }
+            this.phaser.arriveAndAwaitAdvance();
+            // System.out.println("Num parties: " + this.phaser.getRegisteredParties());
             synchronized(this.board) {
                 // First they need to check their type
                 if (this.myType == aType.ELEPHANT) {
@@ -138,7 +124,7 @@ public class Animal extends Thread {
                     }
                     System.out.println(this);
                 } else if (this.myType == aType.MOUSE) {
-                    if (this.board.numElephant() == 0) {
+                    if (this.board.getNumElephant() == 0) {
                         // System.out.println("Mouse " + this.myId + " Nothing to eat. I am done!");
                         break;
                     } else {
@@ -154,7 +140,7 @@ public class Animal extends Thread {
                             elephants = this.amIAlone(elephants);
                             if (!elephants.isEmpty()) {
                                 // System.out.println("Mouse " + this.myId + " Attack!");
-                                if (attack(elephants.get(0))) {
+                                if (attack(elephants)) {
                                     // System.out.println("Mouse " + this.myId + " got closer.");
                                 } else {
                                     // System.out.println("Mouse " + this.myId + " didn't move.");
@@ -172,14 +158,14 @@ public class Animal extends Thread {
         // Exit 
         synchronized(this.board) {
             this.dead = true;
+            phaser.arriveAndDeregister();
             this.board.notify();
         }
     }
-    /*
-      this function givin random position to animal and check if is not out of boundary  check if in the square is not other elephant 
-      will move the animal to new position since we can have more then one mouse in square and not more than one elephant 
-    */
 
+    /*
+      This function givin random position to animal and check if is not out of boundary. Check if in the square is not other elephant 
+    */
     private boolean randomMove(List<Integer> directions) {
         Point p;
         for (int i = 0; i < directions.size(); i++) {
@@ -196,16 +182,16 @@ public class Animal extends Thread {
         }
         return false;
     }
-    /*
-      mice are around elephant so elephant will check 
-    */
 
+    /*
+        Run Away from the closest mice
+    */
     private boolean runAway(List<Animal> mice) {
         if (this.myType == Animal.aType.ELEPHANT) {
             Point p;
             Animal closestMouse = mice.get(0);
             if (mice.size() > 1) {
-                this.closest(mice);
+                closestMouse = this.closest(mice);
             }
             double currDistance = this.board.distance(this.mySquare, closestMouse.getSquare());
             Collections.shuffle(allDirections);
@@ -230,11 +216,15 @@ public class Animal extends Thread {
     }
 
     /*
-
+        Find the closest Elephant and move toward it
     */
-    private boolean attack(Animal el) {
+    private boolean attack(List<Animal> el) {
         if (this.myType == Animal.aType.MOUSE) {
-            double currDistance = this.board.distance(this.mySquare, el.getSquare());
+            Animal closestElephant = el.get(0);
+            if (el.size() > 1) {
+                closestElephant = this.closest(el);
+            }
+            double currDistance = this.board.distance(this.mySquare, closestElephant.getSquare());
             if ((int)currDistance > this.numSteps) {
                 Collections.shuffle(allDirections);
                 for (int i = 0; i < allDirections.size(); i++) {
@@ -242,14 +232,14 @@ public class Animal extends Thread {
                     if (p.x < 0 || p.x > this.board.getWidth() - 1 || p.y < 0 || p.y > this.board.getHeight() - 1) {
                         continue;
                     } else {
-                        if (this.board.distance(new Square(p), el.getSquare()) > currDistance) {
+                        if (this.board.distance(new Square(p), closestElephant.getSquare()) < currDistance) {
                             this.board.move(this, p);
                             return true;
                         } 
                     }
                 }
             } else {
-                this.board.move(this, el.getSquare().getPosition());
+                this.board.move(this, closestElephant.getSquare().getPosition());
             }
             return true;
         } else {
@@ -258,7 +248,7 @@ public class Animal extends Thread {
     }
     
     /*
-      mouse find the closest elephant to move toward
+      Finds the closest animal
     */
     private Animal closest(List<Animal> animals) {
         Animal closest = null;
@@ -305,7 +295,7 @@ public class Animal extends Thread {
     public String toString() {
         String result = "Turn " + this.turnNum + ": ";
         result +=  (this.myType == aType.ELEPHANT) ? "Elephant " : "Mouse ";
-        result +=   this.myId + " to " + this.mySquare.getPosition().x + " " + this.mySquare.getPosition().y + " thread id: " + this.getId() + " " + this.getName();
+        result +=   this.myId + " to " + this.mySquare.getPosition().x + " " + this.mySquare.getPosition().y; // + " thread id: " + this.getId() + " " + this.getName();
         return result;
     }
 

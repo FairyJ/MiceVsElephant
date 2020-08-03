@@ -1,0 +1,35 @@
+=====>        Start        <====
+Turn 0: Elephant 1 to 2 4 thread id: 12 Thread-0
+Turn 0: Elephant 2 to 3 9 thread id: 13 Thread-1
+Turn 0: Elephant 3 to 4 4 thread id: 14 Thread-2
+Turn 0: Elephant 4 to 4 3 thread id: 15 Thread-3
+Turn 0: Mouse 1 to 8 4 thread id: 16 Thread-4
+Turn 0: Mouse 2 to 2 3 thread id: 17 Thread-5
+Turn 0: Mouse 3 to 1 8 thread id: 18 Thread-6
+Turn 0: Mouse 4 to 1 2 thread id: 19 Thread-7
+Turn 0: Mouse 5 to 4 1 thread id: 20 Thread-8
+Turn 0: Mouse 6 to 0 9 thread id: 21 Thread-9
+Turn 0: Mouse 7 to 8 7 thread id: 22 Thread-10
+Turn 1: Mouse 7 to 8 5 thread id: 22 Thread-10
+Turn 1: Elephant 1 to 1 4 thread id: 12 Thread-0
+Turn 1: Elephant 3 to 3 5 thread id: 14 Thread-2
+Turn 1: Elephant 2 to 4 8 thread id: 13 Thread-1
+Turn 1: Elephant 4 to 4 2 thread id: 15 Thread-3
+Turn 1: Mouse 1 to 8 2 thread id: 16 Thread-4
+Turn 1: Mouse 4 to 1 4 thread id: 19 Thread-7
+Turn 1: Mouse 3 to 3 8 thread id: 18 Thread-6
+Turn 1: Mouse 5 to 6 1 thread id: 20 Thread-8
+Turn 1: Mouse 6 to 0 9 thread id: 21 Thread-9
+Turn 1: Mouse 2 to 1 4 thread id: 17 Thread-5
+Turn 2: Mouse 2 to 1 4 thread id: 17 Thread-5
+Turn 2: Elephant 3 to 3 6 thread id: 14 Thread-2
+Started all Animals. Mice size: 7 Elephants size: 4
+Elephant 1 thread id: 12 is dead
+Turn 2: Mouse 7 to 8 3 thread id: 22 Thread-10
+Turn 2: Mouse 6 to 0 9 thread id: 21 Thread-9
+Turn 2: Mouse 3 to 5 8 thread id: 18 Thread-6
+Turn 2: Mouse 5 to 8 3 thread id: 20 Thread-8
+Turn 2: Mouse 1 to 8 4 thread id: 16 Thread-4
+Turn 2: Mouse 4 to 1 4 thread id: 19 Thread-7
+Turn 2: Elephant 4 to 4 1 thread id: 15 Thread-3
+Turn 2: Elephant 2 to 3 9 thread id: 13 Thread-1

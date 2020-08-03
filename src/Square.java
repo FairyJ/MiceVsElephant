@@ -68,7 +68,6 @@ public class Square {
         if(this.numMic == 0){
             this.hasMouse = false;
         } 
-        // animal.removeSquare();
         return true;
     }
 
