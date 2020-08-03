@@ -10,12 +10,13 @@ import java.lang.Math;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.awt.Point;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.*;
 
 
 public class GameBoard {
 
-    private CountDownLatch latch = new CountDownLatch(1);
+    // private CountDownLatch latch = new CountDownLatch(1);
+    private CyclicBarrier barrier;
 
     /*  Direction Reference
         [Left Up, UP, Right Up, RIGHT, Right Down, DOWN, Left Down, LEFT]
@@ -52,6 +53,7 @@ public class GameBoard {
         this.strikingDistance = strikingDistance;
         this.numMice = numMice;
         this.numElephant = numElephant;
+        this.barrier = new CyclicBarrier(numMice + numElephant);
         this.board = new Square[this.squaresWide][this.squaresTall];
     }
 
@@ -131,7 +133,7 @@ public class GameBoard {
         //create all elephants
         for (int i = 0; i < this.numElephant; i++) {
             p = new Point(randomNumber.nextInt(squaresWide), randomNumber.nextInt(squaresWide));
-            Animal el = new Animal(this, Animal.aType.ELEPHANT, this.latch);
+            Animal el = new Animal(this, Animal.aType.ELEPHANT, this.barrier);
             while(true){       
                 //if in this position square exist check if it is empty or if elephant is there
                 if(this.board[p.x][p.y] != null){
@@ -156,7 +158,7 @@ public class GameBoard {
         //create all mice
         for (int i = 0; i < this.numMice; i++) { 
             p = new Point(randomNumber.nextInt(squaresWide), randomNumber.nextInt(squaresWide));
-            Animal m = new Animal(this, Animal.aType.MOUSE, latch);
+            Animal m = new Animal(this, Animal.aType.MOUSE, this.barrier);
             while(true){        
                 if(this.board[p.x][p.y] != null){
                     if(!this.board[p.x][p.y].elephantIsHere()){
@@ -177,9 +179,9 @@ public class GameBoard {
             m.start();
         }
 
-        System.out.println(this);
+        // System.out.println(this);
         System.out.println("Started all Animals. Mice size: " + this.mice.size() + " Elephants size: " + this.elephants.size());
-        latch.countDown();
+        // latch.countDown();
         
         // Waiting for threads to finis
         // remove them from the list and squares and clean up
@@ -241,12 +243,12 @@ public class GameBoard {
                         }
                         miceItr.remove();
                     }
-                }          
+                }
+                this.barrier = new CyclicBarrier(this.mice.size() + this.elephants.size());    
+                this.barrier.reset();
             }
         }
-
         System.out.println("Elephants list size: " + this.elephants.size() + " mice list size: " + this.mice.size());
-
     }
     
     public int numElephant() {
@@ -262,19 +264,27 @@ public class GameBoard {
         List<Animal> animalsAroundMe = new LinkedList<>();
         if (animal.getType() == Animal.aType.ELEPHANT) {
             for (Animal m: this.mice) {
-                if (animal.distance(m.getSquare()) <= this.strikingDistance) {
+                if ((int) this.distance(animal.getSquare(), m.getSquare()) <= this.strikingDistance) {
                     animalsAroundMe.add(m);
                 }
             }
         } else if (animal.getType() == Animal.aType.MOUSE) {
             for(Animal el : this.elephants){
-                if(animal.distance(el.getSquare()) <= this.strikingDistance){
+                if((int) this.distance(animal.getSquare(), el.getSquare()) <= this.strikingDistance){
                     animalsAroundMe.add(el);
                 }
             }
         }
         return animalsAroundMe;
     }
+
+    /*
+        Calculates the distance between two point 
+    */
+    public double distance( Square a, Square b) {
+        return Math.sqrt(Math.pow((a.getPosition().x - b.getPosition().x), 2) + Math.pow((a.getPosition().y - b.getPosition().y), 2));
+    }
+    
 
     // * One elephant and multiple mice
     // V one elephant and one mouse
