@@ -225,7 +225,7 @@ public class Animal extends Thread {
                 closestElephant = this.closest(el);
             }
             double currDistance = this.board.distance(this.mySquare, closestElephant.getSquare());
-            if ((int)currDistance > this.numSteps) {
+            if ((int)currDistance > 1) {
                 Collections.shuffle(allDirections);
                 for (int i = 0; i < allDirections.size(); i++) {
                     Point p = this.board.newLocation(allDirections.get(i), this.getSquare().getPosition(), this.numSteps);

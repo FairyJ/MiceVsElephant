@@ -52,7 +52,8 @@ public class GameBoard {
         this.strikingDistance = strikingDistance;
         this.numMice = numMice;
         this.numElephant = numElephant;
-        this.phaser = new Phaser(numMice + numElephant);
+        //create phaser with number of elephants and mice and board.
+        this.phaser = new Phaser(numMice + numElephant + 1);
         this.board = new Square[this.squaresWide][this.squaresTall];
     }
 
@@ -178,12 +179,16 @@ public class GameBoard {
             m.start();
         }
 
-        // System.out.println(this);
+        //System.out.println(this);
         System.out.println("Started all Animals. Mice size: " + this.mice.size() + " Elephants size: " + this.elephants.size());
-        
+        boolean start = false;
         // Waiting for threads to finis
         // remove them from the list and squares and clean up
         synchronized(this) {
+            if(!start){
+                start = true;
+                this.phaser.arriveAndDeregister();
+            }
             while (!this.elephants.isEmpty() || !this.mice.isEmpty()) {
                 boolean aboutToLeave = false;
                 // Wait for animals to finish and Notify the board before leave the game
