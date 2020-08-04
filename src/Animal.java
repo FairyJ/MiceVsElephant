@@ -90,7 +90,7 @@ public class Animal extends Thread {
 
         while (true) {
             this.turnNum++;
-            this.phaser.arriveAndAwaitAdvance();
+            this.phaser.arriveAndAwaitAdvance();//arriveAndAwaitAdvance signal and wait also saves interrupt
             // System.out.println("Num parties: " + this.phaser.getRegisteredParties());
             synchronized(this.board) {
                 // First they need to check their type
@@ -129,7 +129,7 @@ public class Animal extends Thread {
                         break;
                     } else {
                         List<Animal> elephants = this.board.strikeZone(this);
-                        if (elephants.isEmpty()) {
+                        if (elephants.isEmpty()) {//no elephant  moves to a random adjacent square
                             Collections.shuffle(diagonalDirections);
                             if (this.randomMove(diagonalDirections)) {
                                 // System.out.println("Mouse " + this.myId + " Random Move with success.");
